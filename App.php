@@ -4,12 +4,36 @@ namespace ReactifyWP;
 
 class App {
 	/**
+	 * Static reference to app
+	 *
+	 * @since  0.5
+	 * @var object
+	 */
+	static $instance;
+
+	/**
 	 * We will store our one reference to our v8js app here
 	 *
 	 * @var object
 	 * @since  0.5
 	 */
 	public $v8;
+
+	/**
+	 * Path to server-side JS entry
+	 *
+	 * @since  0.5
+	 * @var string
+	 */
+	public $server_js_path;
+
+	/**
+	 * Url clide-side JS entry
+	 *
+	 * @since  0.5
+	 * @var string
+	 */
+	public $client_js_url;
 
 	/**
 	 * Singleton class
@@ -24,7 +48,7 @@ class App {
 	public function render() {
 		do_action( 'reactifywp_render' );
 
-		$server = file_get_contents( __DIR__ . '/../js/server.js' );
+		$server = file_get_contents( $this->server_js_path );
 
 		$this->v8->executeString( $server, \V8Js::FLAG_FORCE_ARRAY );
 
@@ -102,6 +126,7 @@ class App {
 		$this->v8->context->posts = [];
 		$this->v8->context->nav_menus = [];
 		$this->v8->context->sidebars = [];
+		$this->v8->client_js_url = $this->client_js_url;
 
 		add_action( 'after_setup_theme', array( $this, 'register_menus' ), 11 );
 		add_action( 'reactifywp_render', array( $this, 'register_route' ), 11 );
@@ -265,31 +290,31 @@ class App {
 	}
 
 	/**
-	 * Singleton class. Start app by calling ReactifyWP::instance(); in functions.php of theme.
-	 *
-	 * @since 0.5
-	 * @return  object
-	 */
-	public static function instance() {
-		static $instance;
-
-		if ( empty( $instance ) ) {
-			$instance = new self();
-			$instance->init();
-			$instance->setup_api();
-		}
-
-		return $instance;
-	}
-
-	/**
-	 * Alias for self::instance()
+	 * Return static app instance
 	 *
 	 * @since  0.5
 	 * @return object
 	 */
-	public static function setup() {
-		return self::instance();
+	public static function instance() {
+		return self::$instance;
+	}
+
+	/**
+	 * Singleton class. Start app by calling ReactifyWP::setup(); in functions.php of theme.
+	 * 
+	 * @since 0.5
+	 * @return  object
+	 */
+	public static function setup( $server_js_path, $client_js_url ) {
+		if ( empty( self::$instance ) ) {
+			self::$instance = new self();
+			self::$instance->server_js_path = $server_js_path;
+			self::$instance->client_js_url = $client_js_url;
+			self::$instance->init();
+			self::$instance->setup_api();
+		}
+
+		return self::$instance;
 	}
 }
 
