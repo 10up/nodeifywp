@@ -124,6 +124,8 @@ ReactifyWP has a few useful API methods available:
   } );
   ```
 
+  The post tag would then be available in JavaScript as `PHP.context.$posts[...].my_meta`.
+
 ## v8js "Gotchas"
 
 * `console` does not exist. Use `print()` and `require('util').inspect` instead.
