@@ -113,7 +113,7 @@ ReactifyWP has a few useful API methods available:
   Registered post tags "localize" content for use within JavaScript on individual post objects.
   
   * (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$posts[...][{$tag_name}]`` in JS.
-  * (callable) `$tag_function`: This function will be executed to determine the contents of our tag. A `WP_Post` object will be passed to the function
+  * (callable) `$tag_function`: This function will be executed to determine the contents of our tag. A `WP_Post` object will be passed to the function and setup as the global post.
 
   For example, to register post meta for use within each post in JavaScript:
 
