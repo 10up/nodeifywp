@@ -1,0 +1,16 @@
+{
+    "name": "10up/reactifywp",
+    "description": "API for turning a WordPress theme into an isomorphic React.js application. Requires v8js for PHP.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Lovett, 10up",
+            "email": "taylor.lovett@10up.com"
+        }
+    ],
+    "autoload": {
+    "psr-4": {
+      "ReactifyWP\\": "."
+    }
+  },
+}
