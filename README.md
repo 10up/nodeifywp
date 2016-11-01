@@ -92,21 +92,41 @@ In your server side JavaScript, you could print or inspect one of these objects 
 ```javascript
 print(PHP.client_js_url);
 
-require('util').inspect(PHP.context.$sidebars);
+print(require('util').inspect(PHP.context.$sidebars));
 ```
-
 
 ## API
 
-ReactifyWP adds a few tools to your theme:
+ReactifyWP has a few useful API methods available:
 
 * `\ReactifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );`
 
-  Template tags "localize" content for use within JavaScript. By default, ReactifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
+  Registered template tags "localize" content for use within JavaScript. By default, ReactifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
   
-  * (string) `$tag_name`: Name of tag. Will be available as PHP.context.$template_tags.$tag_name in JS.
+  * (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$template_tags.$tag_name` in JS.
   * (callable) `$tag_function`: This function will be executed to determine the contents of our tag
-  * (boolean) `$constant`: Constant tags will not be re-calculated on client side navigation
+  * (boolean) `$constant`: Constant tags will not be re-calculated on client side navigation (in `get_route` API calls).
   * (string) `$on_action`: You can choose where the template tag should be rendered
+
+* `\ReactifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );`
+
+  Registered post tags "localize" content for use within JavaScript on individual post objects.
+  
+  * (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$posts[...][{$tag_name}]`` in JS.
+  * (callable) `$tag_function`: This function will be executed to determine the contents of our tag. A `WP_Post` object will be passed to the function
+
+  For example, to register post meta for use within each post in JavaScript:
+
+  ```php
+  \ReactifyWP\App::instance()->register_post_tag( 'my_meta', function( $post ) {
+    $meta = get_post_meta( $post->ID, 'my_meta', true );
+    echo $meta;
+  } );
+  ```
+
+## v8js "Gotchas"
+
+* `console` does not exist. Use `print()` and `require('util').inspect` instead.
+* `setTimeout` does not exist.
 
 

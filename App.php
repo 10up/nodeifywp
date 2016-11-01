@@ -91,7 +91,8 @@ class App {
 	 * Register a tag on each post passed to JS.
 	 *
 	 * @param  string   $tag_name     Name of tag on post object
-	 * @param  callable $tag_function This function will be executed to determine the contents of our tag
+	 * @param  callable $tag_function This function will be executed to determine the contents of our tag. $tag_function will
+	 *                                be called with WP_Post as an argument.
 	 * @since 0.5
 	 */
 	public function register_post_tag( $tag_name, $tag_function ) {
@@ -103,7 +104,7 @@ class App {
 
 			ob_start();
 
-			$tag_function();
+			$tag_function( $post );
 
 			wp_reset_postdata();
 
