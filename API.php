@@ -35,10 +35,8 @@ class API extends \WP_REST_Controller {
 	 * @return array
 	 */
 	public function get_route() {
-
-		require_once( 'url.php' );
-
-		$query_args = url_to_query( $_GET['location'] );
+		$resolver = new \GM\UrlToQuery();
+		$query_args = $resolver->resolve( $_GET['location'] );
 
 		$GLOBALS['wp_the_query'] = new \WP_Query( $query_args );
 		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];

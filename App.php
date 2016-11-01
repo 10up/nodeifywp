@@ -136,6 +136,7 @@ class App {
 		add_filter( 'show_admin_bar', '__return_false' );
 
 		require_once __DIR__ . '/standard-tags.php';
+		require_once __DIR__ . '/vendor/autoload.php';
 	}
 
 	/**
