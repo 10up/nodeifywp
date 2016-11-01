@@ -15,7 +15,7 @@ The magic is made possible by the [PHP v8js PECL package](https://pecl.php.net/p
 Install is easy via composer: `composer require 10up/reactifywp --save`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
 
 ```php
-\ReactifyWP\App::setup();
+\ReactifyWP\App::setup( __DIR__ . '/js/server.js', get_stylesheet_directory_uri() . '/js/client.js' );
 ```
 
 ...
