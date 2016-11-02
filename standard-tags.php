@@ -13,8 +13,8 @@ App::instance()->register_template_tag( 'wp_head', function() {
 App::instance()->register_template_tag( 'admin_bar', function() {
 	global $wp_admin_bar;
 
-	if ( is_user_logged_in() ) {
-		echo 111;
+	if ( ! is_user_logged_in() ) {
+		return;
 	}
 
 	require_once( ABSPATH . WPINC . '/class-wp-admin-bar.php' );
