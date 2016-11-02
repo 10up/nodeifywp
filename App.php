@@ -99,7 +99,6 @@ class App {
 		$context = $this->v8->context;
 
 		add_filter( 'reactifywp_register_post_tags', function( $post ) use ( $tag_function, $tag_name ) {
-			global $post;
 			setup_postdata( $post );
 
 			ob_start();
