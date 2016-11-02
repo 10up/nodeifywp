@@ -10,9 +10,27 @@ App::instance()->register_template_tag( 'wp_head', function() {
 	do_action( 'wp_head' );
 } );
 
+App::instance()->register_template_tag( 'admin_bar', function() {
+	global $wp_admin_bar;
+
+	if ( is_user_logged_in() ) {
+		echo 111;
+	}
+
+	require_once( ABSPATH . WPINC . '/class-wp-admin-bar.php' );
+	
+	$wp_admin_bar = new \WP_Admin_Bar;
+	$wp_admin_bar->initialize();
+	$wp_admin_bar->add_menus();
+
+	do_action_ref_array( 'admin_bar_menu', array( &$wp_admin_bar ) );
+
+	$wp_admin_bar->render();
+}, false );
+
 App::instance()->register_template_tag( 'wp_footer', function() {
 	do_action( 'wp_footer' );
-} );
+}, false );
 
 App::instance()->register_template_tag( 'get_body_class', function() {
 	body_class();

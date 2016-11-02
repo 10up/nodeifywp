@@ -86,6 +86,19 @@ PHP.context.$template_tags = {
 };
 ```
 
+`PHP.context.$user` - Contains current logged in user information.
+
+Example:
+```javascript
+PHP.context.$user = {
+  user_login: '',
+  user_nicename: '',
+  ID: '',
+  display_name: '',
+  rest_nonce: ''
+};
+```
+
 `PHP.client_js_url` - URL to client side JavaScript file.
 
 In your server side JavaScript, you could print or inspect one of these objects like so:

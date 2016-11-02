@@ -98,18 +98,21 @@ class App {
 	public function register_post_tag( $tag_name, $tag_function ) {
 		$context = $this->v8->context;
 
-		add_filter( 'reactifywp_register_post_tags', function( $post ) use ( $tag_function, $tag_name ) {
+		add_filter( 'reactifywp_register_post_tags', function( $post_object ) use ( $tag_function, $tag_name ) {
+			global $post;
+
+			$post = $post_object;
 			setup_postdata( $post );
 
 			ob_start();
 
-			$tag_function( $post );
+			$tag_function( $post_object );
 
 			wp_reset_postdata();
 
-			$post->{$tag_name} = ob_get_clean();
+			$post_object->{$tag_name} = ob_get_clean();
 
-			return $post;
+			return $post_object;
 		} );
 	}
 
@@ -126,17 +129,40 @@ class App {
 		$this->v8->context->posts = [];
 		$this->v8->context->nav_menus = [];
 		$this->v8->context->sidebars = [];
+		$this->v8->context->user = [];
 		$this->v8->client_js_url = $this->client_js_url;
 
 		add_action( 'after_setup_theme', array( $this, 'register_menus' ), 11 );
 		add_action( 'reactifywp_render', array( $this, 'register_route' ), 11 );
 		add_action( 'reactifywp_render', array( $this, 'register_posts' ), 9 );
 		add_action( 'reactifywp_render', array( $this, 'register_sidebars' ), 9 );
+		add_action( 'reactifywp_render', array( $this, 'register_user' ), 9 );
 		add_action( 'template_redirect', array( $this, 'render' ) );
-		add_filter( 'show_admin_bar', '__return_false' );
+		remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
 
 		require_once __DIR__ . '/standard-tags.php';
 		require_once __DIR__ . '/vendor/autoload.php';
+	}
+
+	/**
+	 * Setup current user info if logged in
+	 *
+	 * @since  0.5
+	 */
+	public function register_user() {
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
+		$user = wp_get_current_user();
+
+		$this->v8->context->user['user_login'] = $user->user_login;
+		$this->v8->context->user['user_nicename'] = $user->user_nicename;
+		$this->v8->context->user['ID'] = $user->ID;
+		$this->v8->context->user['display_name'] = $user->display_name;
+		$this->v8->context->user['rest_nonce'] = wp_create_nonce( 'wp_rest' );
+
+		$this->v8->context->user = apply_filters( 'reactifywp_registered_user', $this->v8->context->user );
 	}
 
 	/**
@@ -178,7 +204,7 @@ class App {
 			}
 		}
 
-		$this->v8->context->route = $route;
+		$this->v8->context->route = apply_filters( 'reactifywp_registered_route', $route );
 	}
 
 	/**
@@ -196,6 +222,8 @@ class App {
 
 			$this->v8->context->sidebars[ $sidebar['id'] ] = ob_get_clean();
 		}
+
+		$this->v8->context->sidebars = apply_filters( 'reactifywp_registered_sidebars', $this->v8->context->sidebars );
 	}
 
 	/**
@@ -235,6 +263,8 @@ class App {
 
 			$this->v8->context->nav_menus[ $location ] = $menu;
 		}
+
+		$this->v8->context->nav_menus = apply_filters( 'reactifywp_registered_nav_menus', $this->v8->context->nav_menus );
 	}
 
 	/**
@@ -275,6 +305,8 @@ class App {
 
 			$this->v8->context->posts[ $key ] = (array) apply_filters( 'reactifywp_register_post_tags', $this->v8->context->posts[ $key ] );
 		}
+
+		$this->v8->context->posts = apply_filters( 'reactifywp_registered_posts', $this->v8->context->posts );
 	}
 
 	/**
@@ -283,6 +315,10 @@ class App {
 	 * @since 0.8
 	 */
 	public function setup_api() {
+		if ( ! class_exists( '\WP_REST_Controller' ) ) {
+			return;
+		}
+
 		require_once __DIR__ . '/API.php';
 
 		add_action( 'rest_api_init', function() {
