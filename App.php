@@ -146,8 +146,9 @@ class App {
 	 */
 	public function register_route() {
 		$route = [
-			'type'        => null,
-			'object_id'   => null,
+			'type'           => null,
+			'object_id'      => null,
+			'document_title' => wp_get_document_title(),
 		];
 
 		if ( is_home() || is_front_page() ) {
