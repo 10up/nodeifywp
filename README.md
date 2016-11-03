@@ -4,6 +4,10 @@ ReactifyWP let's you create isomorphic JavaScript applications with PHP. With Re
 
 The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.net/package/v8js) and [Google V8](https://developers.google.com/v8/). The easiest way to understand how this works is by looking at our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme.
 
+<p align="center">
+<a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
+</p>
+
 ## Requirements
 
 * [PHP V8Js](https://pecl.php.net/package/v8js). If you want to use v8js with PHP7, you will have to do some tinkering. Our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme has a development environment built in with Dockerfiles for creating everything.
