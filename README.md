@@ -113,36 +113,36 @@ print(require('util').inspect(PHP.context.$sidebars));
 
 ReactifyWP has a few useful API methods available:
 
-* ```php
-  \ReactifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );
-  ```
+```php
+\ReactifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );
+```
 
-  Registered template tags "localize" content for use within JavaScript. By default, ReactifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
-  
-  * (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$template_tags.$tag_name` in JS.
-  * (callable) `$tag_function`: This function will be executed to determine the contents of our tag
-  * (boolean) `$constant`: Constant tags will not be re-calculated on client side navigation (in `get_route` API calls).
-  * (string) `$on_action`: You can choose where the template tag should be rendered
+Registered template tags "localize" content for use within JavaScript. By default, ReactifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
 
-* ```php
-  \ReactifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );
-  ```
+* (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$template_tags.$tag_name` in JS.
+* (callable) `$tag_function`: This function will be executed to determine the contents of our tag
+* (boolean) `$constant`: Constant tags will not be re-calculated on client side navigation (in `get_route` API calls).
+* (string) `$on_action`: You can choose where the template tag should be rendered
 
-  Registered post tags "localize" content for use within JavaScript on individual post objects.
-  
-  * (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$posts[...][{$tag_name}]`` in JS.
-  * (callable) `$tag_function`: This function will be executed to determine the contents of our tag. A `WP_Post` object will be passed to the function and setup as the global post.
+```php
+\ReactifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );
+```
 
-  For example, to register post meta for use within each post in JavaScript:
+Registered post tags "localize" content for use within JavaScript on individual post objects.
 
-  ```php
-  \ReactifyWP\App::instance()->register_post_tag( 'my_meta', function( $post ) {
-    $meta = get_post_meta( $post->ID, 'my_meta', true );
-    echo $meta;
-  } );
-  ```
+* (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$posts[...][{$tag_name}]` in JS.
+* (callable) `$tag_function`: This function will be executed to determine the contents of our tag. A `WP_Post` object will be passed to the function and setup as the global post.
 
-  The post tag would then be available in JavaScript as `PHP.context.$posts[...].my_meta`.
+For example, to register post meta for use within each post in JavaScript:
+
+```php
+\ReactifyWP\App::instance()->register_post_tag( 'my_meta', function( $post ) {
+  $meta = get_post_meta( $post->ID, 'my_meta', true );
+  echo $meta;
+} );
+```
+
+The post tag would then be available in JavaScript as `PHP.context.$posts[...].my_meta`.
 
 ## v8js "Gotchas"
 
