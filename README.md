@@ -27,7 +27,7 @@ ReactifyWP transfers WordPress settings, sidebars, posts, etc. to JavaScript usi
 
 `PHP.context.$route` - Contains information about the current page being shown.
 
-Example:
+__Example:__
 ```javascript
 PHP.context.$route = {
   type: 'home', // Type of route being shown i.e. home or single
@@ -38,7 +38,7 @@ PHP.context.$route = {
 
 `PHP.context.$nav_menus` - An object with menu names as keys containing each registered theme menu.
 
-Example:
+__Example:__
 ```javascript
 PHP.context.$nav_menus = {
   primary: [
@@ -53,7 +53,7 @@ PHP.context.$nav_menus = {
 
 `PHP.context.$posts` - An array of the posts for the current route. For a page, there would just be one post in the array.
 
-Example:
+__Example:__
 ```javascript
 PHP.context.$posts = [
   {
@@ -71,7 +71,7 @@ PHP.context.$posts = [
 
 `PHP.context.$sidebars` - An object containing sidebar HTML where the key is the sidebar name.
 
-Example:
+__Example:__
 ```javascript
 PHP.context.$sidebars = {
   'sidebar-1': 'Raw sidebar HTML'
@@ -80,7 +80,7 @@ PHP.context.$sidebars = {
 
 `PHP.context.$template_tags` - Contains registered template tags. See API section below for registering template tags
 
-Example:
+__Example:__
 ```javascript
 PHP.context.$template_tags = {
   wp_head: 'Raw wp_head HTML'
@@ -89,7 +89,7 @@ PHP.context.$template_tags = {
 
 `PHP.context.$user` - Contains current logged in user information.
 
-Example:
+__Example:__
 ```javascript
 PHP.context.$user = {
   user_login: '',
@@ -113,7 +113,9 @@ print(require('util').inspect(PHP.context.$sidebars));
 
 ReactifyWP has a few useful API methods available:
 
-* `\ReactifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );`
+* ```php
+  \ReactifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );
+  ```
 
   Registered template tags "localize" content for use within JavaScript. By default, ReactifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
   
@@ -122,7 +124,9 @@ ReactifyWP has a few useful API methods available:
   * (boolean) `$constant`: Constant tags will not be re-calculated on client side navigation (in `get_route` API calls).
   * (string) `$on_action`: You can choose where the template tag should be rendered
 
-* `\ReactifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );`
+* ```php
+  \ReactifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );
+  ```
 
   Registered post tags "localize" content for use within JavaScript on individual post objects.
   
@@ -142,7 +146,7 @@ ReactifyWP has a few useful API methods available:
 
 ## v8js "Gotchas"
 
-* `console` does not exist. Use `print()` and `require('util').inspect` instead.
+* `console` does not exist. Use `print()` instead.
 * `setTimeout` does not exist.
 
 
