@@ -153,4 +153,6 @@ The post tag would then be available in JavaScript as `PHP.context.$posts[...].m
 * `console` does not exist. Use `print()` instead.
 * `setTimeout` does not exist.
 
+## License
 
+Released under MIT by, and copyright 2016 by [10up](http://10up.com).
