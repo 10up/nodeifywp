@@ -155,4 +155,4 @@ The post tag would then be available in JavaScript as `PHP.context.$posts[...].m
 
 ## License
 
-Released under MIT by, and copyright 2016 by [10up](http://10up.com).
+Released under MIT by by [10up](https://10up.com).
