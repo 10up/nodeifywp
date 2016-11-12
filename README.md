@@ -17,7 +17,7 @@ The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.
 
 ## Usage
 
-Install is easy via composer: `composer require 10up/reactifywp`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
+Install is easy via composer: `composer require 10up/nodeifywp`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
 
 ```php
 \NodeifyWP\App::setup( $server_js_path, $client_js_url );
@@ -118,7 +118,7 @@ print(require('util').inspect(PHP.context.$sidebars));
 NodeifyWP has a few useful API methods available:
 
 ```php
-\NodeifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );
+\NodeifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'nodeifywp_render' );
 ```
 
 Registered template tags "localize" content for use within JavaScript. By default, NodeifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
