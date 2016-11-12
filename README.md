@@ -1,6 +1,6 @@
 # NodeifyWP
 
-NodeifyWP let's you create isomorphic JavaScript applications with PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. Reactify yields all the benefits of WordPress and all the benefits of powerful isomorphic Node.js technologies. Pretty crazy, huh?
+NodeifyWP let's you create isomorphic JavaScript applications with PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. NodeifyWP yields all the benefits of WordPress and all the benefits of powerful isomorphic Node.js technologies. Pretty crazy, huh?
 
 The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.net/package/v8js) and [Google V8](https://developers.google.com/v8/). The easiest way to understand how this works is by looking at our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme.
 
