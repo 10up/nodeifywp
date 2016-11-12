@@ -1,8 +1,12 @@
-# ReactifyWP
+# NodeifyWP
 
-ReactifyWP let's you create isomorphic JavaScript applications with PHP. With ReactifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. Pretty crazy, huh?
+NodeifyWP let's you create isomorphic JavaScript applications with PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. Pretty crazy, huh?
 
 The magic is made possible by the [PHP v8js PECL package](https://pecl.php.net/package/v8js). The easiest way to understand how this works is by looking at our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme.
+
+<p align="center">
+<a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
+</p>
 
 ## Requirements
 
@@ -12,17 +16,17 @@ The magic is made possible by the [PHP v8js PECL package](https://pecl.php.net/p
 
 ## Usage
 
-Install is easy via composer: `composer require 10up/reactifywp --save`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
+Install is easy via composer: `composer require 10up/nodeifywp --save`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
 
 ```php
-\ReactifyWP\App::setup( $server_js_path, $client_js_url );
+\NodeifyWP\App::setup( $server_js_path, $client_js_url );
 ```
 
 `$server_js_path` should be an absolute path to your server JS entrypoint. `$client_js_url` should be a url to your client.js entrypoint.
 
-Once setup, ReactifyWP will automatically take over your theme by executing server JavaScript and exiting. Nothing in index.php, header.php, archive.php, etc. will even be parsed in PHP.
+Once setup, NodeifyWP will automatically take over your theme by executing server JavaScript and exiting. Nothing in index.php, header.php, archive.php, etc. will even be parsed in PHP.
 
-ReactifyWP transfers WordPress settings, sidebars, posts, etc. to JavaScript using a globalized variable, `PHP.context` using v8js. This context object let's you render your theme isomorphically. The context object is built as follows:
+NodeifyWP transfers WordPress settings, sidebars, posts, etc. to JavaScript using a globalized variable, `PHP.context` using v8js. This context object let's you render your theme isomorphically. The context object is built as follows:
 
 `PHP.context.$route` - Contains information about the current page being shown.
 
@@ -110,18 +114,18 @@ print(require('util').inspect(PHP.context.$sidebars));
 
 ## API
 
-ReactifyWP has a few useful API methods available:
+NodeifyWP has a few useful API methods available:
 
-* `\ReactifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' );`
+* `\NodeifyWP\App::instance()->register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'nodeifywp_render' );`
 
-  Registered template tags "localize" content for use within JavaScript. By default, ReactifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
+  Registered template tags "localize" content for use within JavaScript. By default, NodeifyWP includes a number of common template tags such as `wp_head` (see `standard-tags.php`). Template tags are made available in PHP as 
   
   * (string) `$tag_name`: Name of tag. Will be available as `PHP.context.$template_tags.$tag_name` in JS.
   * (callable) `$tag_function`: This function will be executed to determine the contents of our tag
   * (boolean) `$constant`: Constant tags will not be re-calculated on client side navigation (in `get_route` API calls).
   * (string) `$on_action`: You can choose where the template tag should be rendered
 
-* `\ReactifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );`
+* `\NodeifyWP\App::instance()->register_post_tag( $tag_name, $tag_function );`
 
   Registered post tags "localize" content for use within JavaScript on individual post objects.
   
@@ -131,7 +135,7 @@ ReactifyWP has a few useful API methods available:
   For example, to register post meta for use within each post in JavaScript:
 
   ```php
-  \ReactifyWP\App::instance()->register_post_tag( 'my_meta', function( $post ) {
+  \NodeifyWP\App::instance()->register_post_tag( 'my_meta', function( $post ) {
     $meta = get_post_meta( $post->ID, 'my_meta', true );
     echo $meta;
   } );

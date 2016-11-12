@@ -1,6 +1,6 @@
 <?php
 
-namespace ReactifyWP;
+namespace NodeifyWP;
 
 class App {
 	/**
@@ -46,7 +46,7 @@ class App {
 	 * @since 0.5
 	 */
 	public function render() {
-		do_action( 'reactifywp_render' );
+		do_action( 'nodeifywp_render' );
 
 		$server = file_get_contents( $this->server_js_path );
 
@@ -64,7 +64,7 @@ class App {
 	 * @param  string   $on_action    You can choose where the template tag should be rendered
 	 * @since 0.5
 	 */
-	public function register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'reactifywp_render' ) {
+	public function register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'nodeifywp_render' ) {
 		if ( ! $constant && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			return;
 		}
@@ -98,7 +98,7 @@ class App {
 	public function register_post_tag( $tag_name, $tag_function ) {
 		$context = $this->v8->context;
 
-		add_filter( 'reactifywp_register_post_tags', function( $post_object ) use ( $tag_function, $tag_name ) {
+		add_filter( 'nodeifywp_register_post_tags', function( $post_object ) use ( $tag_function, $tag_name ) {
 			global $post;
 
 			$post = $post_object;
@@ -133,10 +133,10 @@ class App {
 		$this->v8->client_js_url = $this->client_js_url;
 
 		add_action( 'after_setup_theme', array( $this, 'register_menus' ), 11 );
-		add_action( 'reactifywp_render', array( $this, 'register_route' ), 11 );
-		add_action( 'reactifywp_render', array( $this, 'register_posts' ), 9 );
-		add_action( 'reactifywp_render', array( $this, 'register_sidebars' ), 9 );
-		add_action( 'reactifywp_render', array( $this, 'register_user' ), 9 );
+		add_action( 'nodeifywp_render', array( $this, 'register_route' ), 11 );
+		add_action( 'nodeifywp_render', array( $this, 'register_posts' ), 9 );
+		add_action( 'nodeifywp_render', array( $this, 'register_sidebars' ), 9 );
+		add_action( 'nodeifywp_render', array( $this, 'register_user' ), 9 );
 		add_action( 'template_redirect', array( $this, 'render' ) );
 		remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
 
@@ -162,7 +162,7 @@ class App {
 		$this->v8->context->user['display_name'] = $user->display_name;
 		$this->v8->context->user['rest_nonce'] = wp_create_nonce( 'wp_rest' );
 
-		$this->v8->context->user = apply_filters( 'reactifywp_registered_user', $this->v8->context->user );
+		$this->v8->context->user = apply_filters( 'nodeifywp_registered_user', $this->v8->context->user );
 	}
 
 	/**
@@ -204,7 +204,7 @@ class App {
 			}
 		}
 
-		$this->v8->context->route = apply_filters( 'reactifywp_registered_route', $route );
+		$this->v8->context->route = apply_filters( 'nodeifywp_registered_route', $route );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class App {
 			$this->v8->context->sidebars[ $sidebar['id'] ] = ob_get_clean();
 		}
 
-		$this->v8->context->sidebars = apply_filters( 'reactifywp_registered_sidebars', $this->v8->context->sidebars );
+		$this->v8->context->sidebars = apply_filters( 'nodeifywp_registered_sidebars', $this->v8->context->sidebars );
 	}
 
 	/**
@@ -264,7 +264,7 @@ class App {
 			$this->v8->context->nav_menus[ $location ] = $menu;
 		}
 
-		$this->v8->context->nav_menus = apply_filters( 'reactifywp_registered_nav_menus', $this->v8->context->nav_menus );
+		$this->v8->context->nav_menus = apply_filters( 'nodeifywp_registered_nav_menus', $this->v8->context->nav_menus );
 	}
 
 	/**
@@ -303,10 +303,10 @@ class App {
 			$this->v8->context->posts[ $key ]->post_class = get_post_class( '', $post->ID );
 			$this->v8->context->posts[ $key ]->permalink = get_permalink( $post->ID );
 
-			$this->v8->context->posts[ $key ] = (array) apply_filters( 'reactifywp_register_post_tags', $this->v8->context->posts[ $key ] );
+			$this->v8->context->posts[ $key ] = (array) apply_filters( 'nodeifywp_register_post_tags', $this->v8->context->posts[ $key ] );
 		}
 
-		$this->v8->context->posts = apply_filters( 'reactifywp_registered_posts', $this->v8->context->posts );
+		$this->v8->context->posts = apply_filters( 'nodeifywp_registered_posts', $this->v8->context->posts );
 	}
 
 	/**
@@ -322,8 +322,8 @@ class App {
 		require_once __DIR__ . '/API.php';
 
 		add_action( 'rest_api_init', function() {
-			$reactify_api = new API();
-			$reactify_api->register_routes();
+			$api = new API();
+			$api->register_routes();
 		} );
 	}
 
@@ -338,7 +338,7 @@ class App {
 	}
 
 	/**
-	 * Singleton class. Start app by calling ReactifyWP::setup(); in functions.php of theme.
+	 * Singleton class. Start app by calling NodeifyWP::setup(); in functions.php of theme.
 	 * 
 	 * @since 0.5
 	 * @return  object

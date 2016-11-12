@@ -1,6 +1,6 @@
 {
-  "name": "10up/reactifywp",
-  "description": "API for turning a WordPress theme into an isomorphic React.js application. Requires v8js for PHP.",
+  "name": "10up/nodeifywp",
+  "description": "API for turning a WordPress theme into an isomorphic JavaScript application. Requires V8Js for PHP.",
   "license": "MIT",
   "authors": [
       {
@@ -10,7 +10,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "ReactifyWP\\": "."
+      "NodeifyWP\\": "."
     }
   },
   "extra": {

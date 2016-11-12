@@ -1,6 +1,6 @@
 <?php
 
-namespace ReactifyWP;
+namespace NodeifyWP;
 
 class API extends \WP_REST_Controller {
 
@@ -11,7 +11,7 @@ class API extends \WP_REST_Controller {
 	 */
 	public function register_routes() {
 		$version = '1';
-		$namespace = 'reactifywp/v' . $version;
+		$namespace = 'nodeifywp/v' . $version;
 
 		$base = 'route';
 		register_rest_route( $namespace, '/' . $base, [
@@ -42,7 +42,7 @@ class API extends \WP_REST_Controller {
 		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 		$GLOBALS['wp_the_query']->query( $query_args );
 
-		do_action( 'reactifywp_render' );
+		do_action( 'nodeifywp_render' );
 
 		App::instance()->register_posts( $query_args );
 

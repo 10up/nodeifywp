@@ -1,6 +1,6 @@
 <?php
 
-namespace ReactifyWP;
+namespace NodeifyWP;
 
 /**
  * Standard template tags
