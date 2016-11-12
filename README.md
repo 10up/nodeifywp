@@ -10,9 +10,9 @@ The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.
 
 ## Requirements
 
-* [PHP V8Js](https://pecl.php.net/package/v8js). If you want to use v8js with PHP7, you will have to do some tinkering. Our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme has a development environment built in with Dockerfiles for creating everything.
+* [PHP V8Js](https://pecl.php.net/package/v8js). If you want to use V8Js with PHP7, you will have to do some tinkering. Our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme has a development environment built in with Dockerfiles for creating everything.
 * [Google V8](https://developers.google.com/v8/)
-* PHP 5.6
+* PHP 5.6+
 * WordPress 4.7+
 
 ## Usage
@@ -27,7 +27,7 @@ Install is easy via composer: `composer require 10up/nodeifywp`. The package com
 
 Once setup, NodeifyWP will automatically take over your theme by executing server JavaScript and exiting. Nothing in index.php, header.php, archive.php, etc. will even be parsed in PHP.
 
-NodeifyWP transfers WordPress settings, sidebars, posts, etc. to JavaScript using a globalized variable, `PHP.context` using v8js. This context object let's you render your theme isomorphically. The context object is built as follows:
+NodeifyWP transfers WordPress settings, sidebars, posts, etc. to JavaScript using a globalized variable, `PHP.context` using V8Js. This context object let's you render your theme isomorphically. The context object is built as follows:
 
 `PHP.context.$route` - Contains information about the current page being shown.
 
@@ -148,7 +148,7 @@ For example, to register post meta for use within each post in JavaScript:
 
 The post tag would then be available in JavaScript as `PHP.context.$posts[...].my_meta`.
 
-## v8js "Gotchas"
+## V8Js "Gotchas"
 
 * `console` does not exist. Use `print()` instead.
 * `setTimeout` does not exist.
