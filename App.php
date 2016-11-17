@@ -141,7 +141,10 @@ class App {
 		remove_action( 'wp_footer', 'wp_admin_bar_render', 1000 );
 
 		require_once __DIR__ . '/standard-tags.php';
-		require_once __DIR__ . '/vendor/autoload.php';
+
+		if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+			require_once __DIR__ . '/vendor/autoload.php';
+		}
 	}
 
 	/**
