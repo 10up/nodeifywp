@@ -1,7 +1,7 @@
 {
   "name": "10up/nodeifywp",
   "description": "API for turning a WordPress theme into an isomorphic JavaScript application. Requires V8Js for PHP.",
-  "license": "MIT",
+  "license": "GPLv2",
   "authors": [
       {
           "name": "Taylor Lovett, 10up",
