@@ -197,8 +197,138 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Todo: test template tags
+	 * Test route registration for home page
 	 */
+	public function test_register_route_home() {
+		\WP_Mock::userFunction( 'wp_get_document_title', [
+			'times' => 1,
+			'return' => 'title',
+		] );
+
+		\WP_Mock::userFunction( 'is_home', [
+			'times' => 2,
+			'return' => true,
+		] );
+
+		App::instance()->register_route();
+
+		$this->assertEquals( 'title', App::$instance->v8->context->route['document_title'] );
+		$this->assertEquals( 'home', App::$instance->v8->context->route['type'] );
+		$this->assertEquals( null, App::$instance->v8->context->route['object_id'] );
+	}
+
+	/**
+	 * Test route registration for single post
+	 */
+	public function test_register_route_single() {
+		\WP_Mock::userFunction( 'wp_get_document_title', [
+			'times' => 1,
+			'return' => 'title',
+		] );
+
+		\WP_Mock::userFunction( 'is_home', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_front_page', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_single', [
+			'times' => 1,
+			'return' => true,
+		] );
+
+		$object = new \stdClass();
+		$object->ID = 1;
+		$object->post_type = 'post';
+
+		\WP_Mock::userFunction( 'get_queried_object', [
+			'times' => 1,
+			'return' => $object,
+		] );
+
+		App::instance()->register_route();
+
+		$this->assertEquals( 'title', App::$instance->v8->context->route['document_title'] );
+		$this->assertEquals( 'single', App::$instance->v8->context->route['type'] );
+		$this->assertEquals( 1, App::$instance->v8->context->route['object_id'] );
+		$this->assertEquals( 'post', App::$instance->v8->context->route['object_type'] );
+	}
+
+	/**
+	 * Test route registration for taxonomy archive
+	 */
+	public function test_register_route_archive() {
+		\WP_Mock::userFunction( 'wp_get_document_title', [
+			'times' => 1,
+			'return' => 'title',
+		] );
+
+		\WP_Mock::userFunction( 'is_home', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_front_page', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_single', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_page', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_author', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_post_type_archive', [
+			'times' => 1,
+			'return' => false,
+		] );
+
+		\WP_Mock::userFunction( 'is_tax', [
+			'times' => 1,
+			'return' => true,
+		] );
+
+		$object = new \stdClass();
+		$object->taxonomy = 'post_tag';
+
+		\WP_Mock::userFunction( 'get_queried_object', [
+			'times' => 1,
+			'return' => $object,
+		] );
+
+		App::instance()->register_route();
+
+		$this->assertEquals( 'title', App::$instance->v8->context->route['document_title'] );
+		$this->assertEquals( 'archive', App::$instance->v8->context->route['type'] );
+		$this->assertEquals( null, App::$instance->v8->context->route['object_id'] );
+		$this->assertEquals( 'post_tag', App::$instance->v8->context->route['object_type'] );
+	}
+
+	/**
+	 * Test template tag registration when tag execution happens immediately
+	 */
+	public function test_register_template_tag_no_action() {
+		App::instance()->register_template_tag( 'my_tag', function() {
+			echo 'my tag';
+		}, true, '' );
+
+		$this->assertEquals( 1, count( App::$instance->v8->context->template_tags ) );
+		$this->assertEquals( 'my tag', App::$instance->v8->context->template_tags['my_tag'] );
+	}
 	
 	/**
 	 * Todo: test post tags
