@@ -71,13 +71,7 @@ class App {
 		$context = $this->v8->context;
 
 		$register = function() use ( &$context, $tag_name, $tag_function ) {
-			ob_start();
-
-			$tag_function();
-
-			$output = ob_get_clean();
-
-			$context->template_tags[ $tag_name ] = $output;
+			$context->template_tags[ $tag_name ] = $tag_function();
 		};
 
 		if ( ! empty( $on_action ) ) {
@@ -104,13 +98,9 @@ class App {
 			$post = $post_object;
 			setup_postdata( $post );
 
-			ob_start();
-
-			$tag_function( $post_object );
+			$post_object->{$tag_name} = $tag_function( $post_object );
 
 			wp_reset_postdata();
-
-			$post_object->{$tag_name} = ob_get_clean();
 
 			return $post_object;
 		} );

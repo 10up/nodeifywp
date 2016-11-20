@@ -7,7 +7,11 @@ namespace NodeifyWP;
  */
 
 App::instance()->register_template_tag( 'wp_head', function() {
-	do_action( 'wp_head' );
+	ob_start();
+
+	wp_head();
+
+	return ob_get_clean();
 } );
 
 App::instance()->register_template_tag( 'admin_bar', function() {
@@ -25,33 +29,41 @@ App::instance()->register_template_tag( 'admin_bar', function() {
 
 	do_action_ref_array( 'admin_bar_menu', array( &$wp_admin_bar ) );
 
+	ob_start();
+	
 	$wp_admin_bar->render();
+
+	return ob_get_clean();
 }, false );
 
 App::instance()->register_template_tag( 'wp_footer', function() {
-	do_action( 'wp_footer' );
+	ob_start();
+
+	wp_footer();
+
+	return ob_get_clean();
 }, false );
 
 App::instance()->register_template_tag( 'get_body_class', function() {
-	body_class();
+	return get_body_class();
 } );
 
 App::instance()->register_template_tag( 'home_url', function() {
-	echo home_url();
+	return home_url();
 } );
 
 App::instance()->register_template_tag( 'stylesheet_directory_url', function() {
-	echo get_stylesheet_directory_uri();
+	return get_stylesheet_directory_uri();
 } );
 
 App::instance()->register_template_tag( 'bloginfo_name', function() {
-	bloginfo( 'name' );
+	return get_bloginfo( 'name' );
 } );
 
 App::instance()->register_template_tag( 'bloginfo_description', function() {
-	bloginfo( 'description' );
+	return get_bloginfo( 'description' );
 } );
 
 App::instance()->register_template_tag( 'header_image', function() {
-	echo header_image();
+	return header_image();
 } );
