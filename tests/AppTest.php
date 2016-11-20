@@ -323,7 +323,7 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_register_template_tag_no_action() {
 		App::instance()->register_template_tag( 'my_tag', function() {
-			echo 'my tag';
+			return 'my tag';
 		}, true, '' );
 
 		$this->assertEquals( 1, count( App::$instance->v8->context->template_tags ) );
