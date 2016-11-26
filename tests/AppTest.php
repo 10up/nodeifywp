@@ -18,6 +18,9 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function tearDown() {
 		\WP_Mock::tearDown();
+
+		$GLOBALS['wp_filters'] = [];
+		App::$instance = false;
 	}
 
 	/**
@@ -30,6 +33,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test empty user object when logged out
+	 *
+	 * @group register-user
 	 */
 	public function test_register_user_logged_out() {
 		\WP_Mock::userFunction( 'is_user_logged_in', [
@@ -44,6 +49,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test populated user object when user logged in
+	 *
+	 * @group register-user
 	 */
 	public function test_register_user_logged_in() {
 		\WP_Mock::userFunction( 'is_user_logged_in', [
@@ -77,6 +84,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test sidebars are properly registered and populated
+	 *
+	 * @group register-sidebar
 	 */
 	public function test_register_sidebar() {
 		global $wp_registered_sidebars;
@@ -109,6 +118,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test posts context is properly registered and that dummy posts populate
+	 *
+	 * @group register-posts
 	 */
 	public function test_register_posts() {
 		$dummy_count = 3;
@@ -149,6 +160,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test menu registration and population making sure to check children
+	 *
+	 * @group register-menus
 	 */
 	public function test_register_menus() {
 		\WP_Mock::userFunction( 'get_nav_menu_locations', [
@@ -198,6 +211,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test route registration for home page
+	 *
+	 * @group register-route
 	 */
 	public function test_register_route_home() {
 		\WP_Mock::userFunction( 'wp_get_document_title', [
@@ -219,6 +234,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test route registration for single post
+	 *
+	 * @group register-route
 	 */
 	public function test_register_route_single() {
 		\WP_Mock::userFunction( 'wp_get_document_title', [
@@ -260,6 +277,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test route registration for taxonomy archive
+	 *
+	 * @group register-route
 	 */
 	public function test_register_route_archive() {
 		\WP_Mock::userFunction( 'wp_get_document_title', [
@@ -320,14 +339,48 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test template tag registration when tag execution happens immediately
+	 *
+	 * @group register-template-tag
 	 */
 	public function test_register_template_tag_no_action() {
 		App::instance()->register_template_tag( 'my_tag', function() {
 			return 'my tag';
-		}, true, '' );
+		}, false, false );
 
 		$this->assertEquals( 1, count( App::$instance->v8->context->template_tags ) );
 		$this->assertEquals( 'my tag', App::$instance->v8->context->template_tags['my_tag'] );
+	}
+
+	/**
+	 * Test template tag string string registration on action
+	 *
+	 * @group register-template-tag
+	 */
+	public function test_register_template_tag_string_on_action() {
+		App::instance()->register_template_tag( 'my_tag', function() {
+			return 'my tag';
+		}, true, 'nodeifywp_test_render' );
+
+		do_action( 'nodeifywp_test_render' );
+
+		$this->assertEquals( 1, count( App::$instance->v8->context->template_tags ) );
+		$this->assertEquals( 'my tag', App::$instance->v8->context->template_tags['my_tag'] );
+	}
+
+	/**
+	 * Test template tag string array registration on action
+	 *
+	 * @group register-template-tag
+	 */
+	public function test_register_template_tag_array_on_action() {
+		App::instance()->register_template_tag( 'my_tag', function() {
+			return [ 'my tag' ];
+		}, true, 'nodeifywp_test_render' );
+
+		do_action( 'nodeifywp_test_render' );
+
+		$this->assertEquals( 1, count( App::$instance->v8->context->template_tags ) );
+		$this->assertEquals( 'my tag', App::$instance->v8->context->template_tags['my_tag'][0] );
 	}
 	
 	/**
