@@ -177,6 +177,8 @@ class App {
 			} else {
 				$route['type'] = 'front_page';
 			}
+		} elseif ( is_404() ) {
+			$route['type'] = '404';
 		} else {
 			$object = get_queried_object();
 

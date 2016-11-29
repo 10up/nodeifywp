@@ -57,6 +57,8 @@ class API extends \WP_REST_Controller {
 
 		if ( ! ( $GLOBALS['wp_the_query']->is_singular || $GLOBALS['wp_the_query']->is_archive || $GLOBALS['wp_the_query']->is_search || $GLOBALS['wp_the_query']->is_feed || $GLOBALS['wp_the_query']->is_trackback || $GLOBALS['wp_the_query']->is_404 || $GLOBALS['wp_the_query']->is_admin || $GLOBALS['wp_the_query']->is_robots ) ) {
 			$GLOBALS['wp_the_query']->is_home = true;
+		} elseif ( empty( $GLOBALS['wp_the_query']->posts ) && ( ! empty( $query_args['name'] ) || ! empty( $query_args['pagename'] ) ) ) {
+			$GLOBALS['wp_the_query']->set_404();
 		}
 
 		do_action( 'nodeifywp_render' );
