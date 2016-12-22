@@ -36,6 +36,14 @@ class App {
 	public $client_js_url;
 
 	/**
+	 * Url to server side JS includes
+	 *
+	 * @since  0.6
+	 * @var string
+	 */
+	public $includes_js_path = null;
+
+	/**
 	 * Singleton class
 	 */
 	public function __construct() { }
@@ -112,7 +120,23 @@ class App {
 	 * @since 0.5
 	 */
 	public function init() {
-		$this->v8 = new \V8Js();
+		$includes_snapshot = null;
+
+		if ( ! empty( $this->includes_js_path ) ) {
+			$includes_snapshot = wp_cache_get( 'nwp_includes_snapshot' );
+
+			if ( false === $includes_snapshot ) {
+				$includes_js = file_get_contents( $this->includes_js_path );
+				$includes_snapshot = \V8Js::createSnapshot( $includes_js );
+
+				if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+					wp_cache_set( 'nwp_includes_snapshot', $includes_snapshot, false, DAY_IN_SECONDS );
+				}
+			}
+		}
+
+		$this->v8 = new \V8Js( 'PHP', [], [], true, $includes_snapshot );
+
 		$this->v8->context = new \stdClass(); // v8js didn't like an array here :(
 		$this->v8->context->template_tags = [];
 		$this->v8->context->route = [];
@@ -338,10 +362,11 @@ class App {
 	 * @since 0.5
 	 * @return  object
 	 */
-	public static function setup( $server_js_path, $client_js_url ) {
+	public static function setup( $server_js_path, $client_js_url, $includes_js_path = null ) {
 		if ( empty( self::$instance ) ) {
 			self::$instance = new self();
 			self::$instance->server_js_path = $server_js_path;
+			self::$instance->includes_js_path = $includes_js_path;
 			self::$instance->client_js_url = $client_js_url;
 			self::$instance->init();
 			self::$instance->setup_api();
