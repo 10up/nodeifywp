@@ -44,6 +44,14 @@ class App {
 	public $includes_js_path = null;
 
 	/**
+	 * Url to client side JS includes
+	 *
+	 * @since  0.6
+	 * @var string
+	 */
+	public $includes_js_url = null;
+
+	/**
 	 * Singleton class
 	 */
 	public function __construct() { }
@@ -145,6 +153,7 @@ class App {
 		$this->v8->context->sidebars = [];
 		$this->v8->context->user = [];
 		$this->v8->client_js_url = $this->client_js_url;
+		$this->v8->includes_js_url = $this->includes_js_url;
 
 		add_action( 'after_setup_theme', array( $this, 'register_menus' ), 11 );
 		add_action( 'nodeifywp_render', array( $this, 'register_route' ), 11 );
@@ -362,11 +371,12 @@ class App {
 	 * @since 0.5
 	 * @return  object
 	 */
-	public static function setup( $server_js_path, $client_js_url, $includes_js_path = null ) {
+	public static function setup( $server_js_path, $client_js_url, $includes_js_path = null, $includes_js_url = null ) {
 		if ( empty( self::$instance ) ) {
 			self::$instance = new self();
 			self::$instance->server_js_path = $server_js_path;
 			self::$instance->includes_js_path = $includes_js_path;
+			self::$instance->includes_js_url = $includes_js_url;
 			self::$instance->client_js_url = $client_js_url;
 			self::$instance->init();
 			self::$instance->setup_api();
