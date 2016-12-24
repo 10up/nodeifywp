@@ -130,15 +130,15 @@ class App {
 	public function init() {
 		$includes_snapshot = null;
 
-		if ( ! empty( $this->includes_js_path ) ) {
-			$includes_snapshot = wp_cache_get( 'nwp_includes_snapshot' );
+		if ( ! empty( $this->includes_js_path ) && ! empty( $this->includes_js_url ) ) {
+			$includes_snapshot = wp_cache_get( 'nodeifywp_includes_snap' );
 
 			if ( false === $includes_snapshot ) {
 				$includes_js = file_get_contents( $this->includes_js_path );
 				$includes_snapshot = \V8Js::createSnapshot( $includes_js );
 
 				if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
-					wp_cache_set( 'nwp_includes_snapshot', $includes_snapshot, false, DAY_IN_SECONDS );
+					wp_cache_set( 'nodeifywp_includes_snap', $includes_snapshot, false, apply_filters( 'nodeifywp_includes_snap_cache_limit', DAY_IN_SECONDS, $this ) );
 				}
 			}
 		}
