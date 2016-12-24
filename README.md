@@ -25,7 +25,7 @@ Install is easy via composer: `composer require 10up/nodeifywp`. The package com
 
 `$server_js_path` should be an absolute path to your server JS entrypoint. `$client_js_url` should be a url to your client.js entrypoint.
 
-You can supply optional third and fourth paramaters, `$includes_js_path` and `$includes_js_url`, to the `setup` method.  `$includes_js_path` should point to a server side JavaScript file that holds your application includes, `$includes_js_url` to the same includes located client side. Storing your includes here will let NodeifyWP cache your includes using V8 heap snapshots.
+You can supply optional third and fourth paramaters, `$includes_js_path` and `$includes_js_url`, to the `setup` method.  `$includes_js_path` should point to a server side JavaScript file that holds your application includes, `$includes_js_url` to the same includes located client side. Storing your includes here will let NodeifyWP cache your includes using [V8 heap snapshots](http://v8project.blogspot.com/2015/09/custom-startup-snapshots.html).
 
 Once setup, NodeifyWP will automatically take over your theme by executing server JavaScript and exiting. Nothing in index.php, header.php, archive.php, etc. will even be parsed in PHP.
 
