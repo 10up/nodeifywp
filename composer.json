@@ -19,6 +19,6 @@
     }
   },
   "require": {
-      "gmazzap/url-to-query": "^1.0"
+      "gmazzap/url-to-query": "^1.0.1"
   }
 }
