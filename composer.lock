@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "931ccc714131e4290bf7815edb272a85",
-    "content-hash": "d7b5a06592786305c9c62bbb1d28902e",
+    "hash": "059e72de6a8ad5e20e36c4ce582ea608",
+    "content-hash": "daaa6023fcb865d2f2d88ae54da43dd8",
     "packages": [
         {
             "name": "composer/installers",
@@ -116,16 +116,16 @@
         },
         {
             "name": "gmazzap/url-to-query",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Giuseppe-Mazzapica/Url_To_Query.git",
-                "reference": "4139fe29a850af65eb9a30c6f23ee52b66b3885f"
+                "reference": "2537affbbb8b9062d46bb2deec1933acab63d007"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Giuseppe-Mazzapica/Url_To_Query/zipball/4139fe29a850af65eb9a30c6f23ee52b66b3885f",
-                "reference": "4139fe29a850af65eb9a30c6f23ee52b66b3885f",
+                "url": "https://api.github.com/repos/Giuseppe-Mazzapica/Url_To_Query/zipball/2537affbbb8b9062d46bb2deec1933acab63d007",
+                "reference": "2537affbbb8b9062d46bb2deec1933acab63d007",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2014-10-30 14:24:15"
+            "time": "2016-12-06 09:02:20"
         }
     ],
     "packages-dev": [],
