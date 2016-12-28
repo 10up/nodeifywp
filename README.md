@@ -20,10 +20,12 @@ The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.
 Install is easy via composer: `composer require 10up/nodeifywp`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
 
 ```php
-\NodeifyWP\App::setup( $server_js_path, $client_js_url );
+\NodeifyWP\App::setup( $server_js_path, $client_js_url = null, $includes_js_path, $includes_js_url = null );
 ```
 
 `$server_js_path` should be an absolute path to your server JS entrypoint. `$client_js_url` should be a url to your client.js entrypoint.
+
+You can supply optional third and fourth paramaters, `$includes_js_path` and `$includes_js_url`, to the `setup` method.  `$includes_js_path` should point to a server side JavaScript file that holds your application includes, `$includes_js_url` to the same includes located client side. Storing your includes here will let NodeifyWP cache your includes using [V8 heap snapshots](http://v8project.blogspot.com/2015/09/custom-startup-snapshots.html).
 
 Once setup, NodeifyWP will automatically take over your theme by executing server JavaScript and exiting. Nothing in index.php, header.php, archive.php, etc. will even be parsed in PHP.
 

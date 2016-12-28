@@ -6,7 +6,7 @@ class App {
 	/**
 	 * Static reference to app
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @var object
 	 */
 	static $instance;
@@ -15,14 +15,14 @@ class App {
 	 * We will store our one reference to our v8js app here
 	 *
 	 * @var object
-	 * @since  0.5
+	 * @since  1.0
 	 */
 	public $v8;
 
 	/**
 	 * Path to server-side JS entry
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @var string
 	 */
 	public $server_js_path;
@@ -30,10 +30,26 @@ class App {
 	/**
 	 * Url clide-side JS entry
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @var string
 	 */
 	public $client_js_url;
+
+	/**
+	 * Url to server side JS includes
+	 *
+	 * @since  1.1
+	 * @var string
+	 */
+	public $includes_js_path = null;
+
+	/**
+	 * Url to client side JS includes
+	 *
+	 * @since  1.1
+	 * @var string
+	 */
+	public $includes_js_url = null;
 
 	/**
 	 * Singleton class
@@ -43,7 +59,7 @@ class App {
 	/**
 	 * Render our isomorphic application
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function render() {
 		do_action( 'nodeifywp_render' );
@@ -62,7 +78,7 @@ class App {
 	 * @param  callable $tag_function This function will be executed to determine the contents of our tag
 	 * @param  boolean  $constant     Constant tags will not be re-calculated on client side navigation
 	 * @param  string   $on_action    You can choose where the template tag should be rendered
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'nodeifywp_render' ) {
 		if ( ! $constant && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
@@ -71,13 +87,7 @@ class App {
 		$context = $this->v8->context;
 
 		$register = function() use ( &$context, $tag_name, $tag_function ) {
-			ob_start();
-
-			$tag_function();
-
-			$output = ob_get_clean();
-
-			$context->template_tags[ $tag_name ] = $output;
+			$context->template_tags[ $tag_name ] = $tag_function();
 		};
 
 		if ( ! empty( $on_action ) ) {
@@ -93,7 +103,7 @@ class App {
 	 * @param  string   $tag_name     Name of tag on post object
 	 * @param  callable $tag_function This function will be executed to determine the contents of our tag. $tag_function will
 	 *                                be called with WP_Post as an argument.
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_post_tag( $tag_name, $tag_function ) {
 		$context = $this->v8->context;
@@ -104,13 +114,9 @@ class App {
 			$post = $post_object;
 			setup_postdata( $post );
 
-			ob_start();
-
-			$tag_function( $post_object );
+			$post_object->{$tag_name} = $tag_function( $post_object );
 
 			wp_reset_postdata();
-
-			$post_object->{$tag_name} = ob_get_clean();
 
 			return $post_object;
 		} );
@@ -119,10 +125,26 @@ class App {
 	/**
 	 * Setup application for use in theme
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function init() {
-		$this->v8 = new \V8Js();
+		$includes_snapshot = null;
+
+		if ( ! empty( $this->includes_js_path ) && ! empty( $this->includes_js_url ) ) {
+			$includes_snapshot = wp_cache_get( 'nodeifywp_includes_snap' );
+
+			if ( false === $includes_snapshot ) {
+				$includes_js = file_get_contents( $this->includes_js_path );
+				$includes_snapshot = \V8Js::createSnapshot( $includes_js );
+
+				if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+					wp_cache_set( 'nodeifywp_includes_snap', $includes_snapshot, false, apply_filters( 'nodeifywp_includes_snap_cache_limit', DAY_IN_SECONDS, $this ) );
+				}
+			}
+		}
+
+		$this->v8 = new \V8Js( 'PHP', [], [], true, $includes_snapshot );
+
 		$this->v8->context = new \stdClass(); // v8js didn't like an array here :(
 		$this->v8->context->template_tags = [];
 		$this->v8->context->route = [];
@@ -131,6 +153,7 @@ class App {
 		$this->v8->context->sidebars = [];
 		$this->v8->context->user = [];
 		$this->v8->client_js_url = $this->client_js_url;
+		$this->v8->includes_js_url = $this->includes_js_url;
 
 		add_action( 'after_setup_theme', array( $this, 'register_menus' ), 11 );
 		add_action( 'nodeifywp_render', array( $this, 'register_route' ), 11 );
@@ -150,7 +173,7 @@ class App {
 	/**
 	 * Setup current user info if logged in
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 */
 	public function register_user() {
 		if ( ! is_user_logged_in() ) {
@@ -171,7 +194,7 @@ class App {
 	/**
 	 * Register route object for use in JS. This tells our app where we are. Available as PHP.context.$route
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 */
 	public function register_route() {
 		$route = [
@@ -187,6 +210,8 @@ class App {
 			} else {
 				$route['type'] = 'front_page';
 			}
+		} elseif ( is_404() ) {
+			$route['type'] = '404';
 		} else {
 			$object = get_queried_object();
 
@@ -232,7 +257,7 @@ class App {
 	/**
 	 * Register menus for use in JS. Available as PHP.context.$nav_menus
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_menus() {
 		$menus = get_nav_menu_locations();
@@ -274,7 +299,7 @@ class App {
 	 * Helper method to recursively convert menu items to arrays
 	 *
 	 * @param  array $menu_item
-	 * @since  0.5
+	 * @since  1.0
 	 * @return array
 	 */
 	private function _convert_to_arrays( $menu_item ) {
@@ -294,7 +319,7 @@ class App {
 	/**
 	 * Register posts for use in JS. Available as PHP.context.$posts
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_posts( $query_args = [] ) {
 
@@ -333,7 +358,7 @@ class App {
 	/**
 	 * Return static app instance
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @return object
 	 */
 	public static function instance() {
@@ -343,13 +368,15 @@ class App {
 	/**
 	 * Singleton class. Start app by calling NodeifyWP::setup(); in functions.php of theme.
 	 * 
-	 * @since 0.5
+	 * @since 1.0
 	 * @return  object
 	 */
-	public static function setup( $server_js_path, $client_js_url ) {
+	public static function setup( $server_js_path, $client_js_url, $includes_js_path = null, $includes_js_url = null ) {
 		if ( empty( self::$instance ) ) {
 			self::$instance = new self();
 			self::$instance->server_js_path = $server_js_path;
+			self::$instance->includes_js_path = $includes_js_path;
+			self::$instance->includes_js_url = $includes_js_url;
 			self::$instance->client_js_url = $client_js_url;
 			self::$instance->init();
 			self::$instance->setup_api();

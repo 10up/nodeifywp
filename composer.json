@@ -20,5 +20,8 @@
   },
   "require": {
       "gmazzap/url-to-query": "^1.0.1"
+  },
+  "require-dev": {
+    "10up/wp_mock": "dev-dev"
   }
 }

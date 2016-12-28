@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Set up PHPUnit test library with WP Mock
+ */
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+/**
+ * For automatted tests that don't have V8Js
+ */
+if ( ! class_exists( '\V8Js' ) ) {
+	class V8Js { }
+}
+
+$GLOBALS['wp_filter'] = [];
+
+/**
+ * Simplistic simulator for add_action
+ */
+function add_action( $tag, $function_to_add ) {
+	$GLOBALS['wp_filter'][ $tag ][] = $function_to_add;
+}
+
+/**
+ * Simplistic simulator for do_action
+ */
+function do_action( $tag ) {
+	if ( empty( $GLOBALS['wp_filter'][ $tag ] ) ) {
+		return;
+	}
+
+	$args = func_get_args();
+
+	array_shift( $args );
+
+	foreach ( $GLOBALS['wp_filter'][ $tag ] as $function ) {
+		call_user_func_array( $function, $args );
+	}
+}
+
+WP_Mock::bootstrap();
