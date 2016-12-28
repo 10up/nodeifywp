@@ -6,7 +6,7 @@ class App {
 	/**
 	 * Static reference to app
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @var object
 	 */
 	static $instance;
@@ -15,14 +15,14 @@ class App {
 	 * We will store our one reference to our v8js app here
 	 *
 	 * @var object
-	 * @since  0.5
+	 * @since  1.0
 	 */
 	public $v8;
 
 	/**
 	 * Path to server-side JS entry
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @var string
 	 */
 	public $server_js_path;
@@ -30,7 +30,7 @@ class App {
 	/**
 	 * Url clide-side JS entry
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @var string
 	 */
 	public $client_js_url;
@@ -38,7 +38,7 @@ class App {
 	/**
 	 * Url to server side JS includes
 	 *
-	 * @since  0.6
+	 * @since  1.1
 	 * @var string
 	 */
 	public $includes_js_path = null;
@@ -46,7 +46,7 @@ class App {
 	/**
 	 * Url to client side JS includes
 	 *
-	 * @since  0.6
+	 * @since  1.1
 	 * @var string
 	 */
 	public $includes_js_url = null;
@@ -59,7 +59,7 @@ class App {
 	/**
 	 * Render our isomorphic application
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function render() {
 		do_action( 'nodeifywp_render' );
@@ -78,7 +78,7 @@ class App {
 	 * @param  callable $tag_function This function will be executed to determine the contents of our tag
 	 * @param  boolean  $constant     Constant tags will not be re-calculated on client side navigation
 	 * @param  string   $on_action    You can choose where the template tag should be rendered
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_template_tag( $tag_name, $tag_function, $constant = true, $on_action = 'nodeifywp_render' ) {
 		if ( ! $constant && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
@@ -103,7 +103,7 @@ class App {
 	 * @param  string   $tag_name     Name of tag on post object
 	 * @param  callable $tag_function This function will be executed to determine the contents of our tag. $tag_function will
 	 *                                be called with WP_Post as an argument.
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_post_tag( $tag_name, $tag_function ) {
 		$context = $this->v8->context;
@@ -125,7 +125,7 @@ class App {
 	/**
 	 * Setup application for use in theme
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function init() {
 		$includes_snapshot = null;
@@ -173,7 +173,7 @@ class App {
 	/**
 	 * Setup current user info if logged in
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 */
 	public function register_user() {
 		if ( ! is_user_logged_in() ) {
@@ -194,7 +194,7 @@ class App {
 	/**
 	 * Register route object for use in JS. This tells our app where we are. Available as PHP.context.$route
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 */
 	public function register_route() {
 		$route = [
@@ -257,7 +257,7 @@ class App {
 	/**
 	 * Register menus for use in JS. Available as PHP.context.$nav_menus
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_menus() {
 		$menus = get_nav_menu_locations();
@@ -299,7 +299,7 @@ class App {
 	 * Helper method to recursively convert menu items to arrays
 	 *
 	 * @param  array $menu_item
-	 * @since  0.5
+	 * @since  1.0
 	 * @return array
 	 */
 	private function _convert_to_arrays( $menu_item ) {
@@ -319,7 +319,7 @@ class App {
 	/**
 	 * Register posts for use in JS. Available as PHP.context.$posts
 	 *
-	 * @since 0.5
+	 * @since 1.0
 	 */
 	public function register_posts( $query_args = [] ) {
 
@@ -358,7 +358,7 @@ class App {
 	/**
 	 * Return static app instance
 	 *
-	 * @since  0.5
+	 * @since  1.0
 	 * @return object
 	 */
 	public static function instance() {
@@ -368,7 +368,7 @@ class App {
 	/**
 	 * Singleton class. Start app by calling NodeifyWP::setup(); in functions.php of theme.
 	 * 
-	 * @since 0.5
+	 * @since 1.0
 	 * @return  object
 	 */
 	public static function setup( $server_js_path, $client_js_url, $includes_js_path = null, $includes_js_url = null ) {
