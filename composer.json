@@ -14,11 +14,6 @@
       "NodeifyWP\\": "."
     }
   },
-  "extra": {
-    "installer-paths": {
-      "vendor/{$name}/": ["type:wordpress-plugin"]
-    }
-  },
   "require-dev": {
     "10up/wp_mock": "dev-dev"
   }
