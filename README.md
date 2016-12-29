@@ -190,12 +190,12 @@ The post tag would then be available in JavaScript as `PHP.context.$posts[...].m
 
 ## Benchmarks
 
-Twenty Sixteen React (along with NodeifyWP) is not a performance bottleneck and will scale with any WordPress website. We've compiled [benchmarks for using Twenty Sixteen React in comparison with the standard Twenty Sixteen theme](https://docs.google.com/spreadsheets/d/1iAa5cjmAIWhz_yYkiuW2Hyn-GvbxSsAcUq2sKnFp5IM/edit#gid=158310691). Takeaways from our benchmarks:
+NodeifyWP (and it's [supported themes](https://github.com/10up/nodeifywp#themes)) is not a performance bottleneck and will scale with any WordPress website. We've compiled [benchmarks for using Twenty Sixteen React, a NodeifyWP theme, in comparison with the standard Twenty Sixteen theme](https://docs.google.com/spreadsheets/d/1iAa5cjmAIWhz_yYkiuW2Hyn-GvbxSsAcUq2sKnFp5IM/edit#gid=158310691). Takeaways from our benchmarks:
 * With no caching set up, Twenty Sixteen React's average response time is about 200ms longer than Twenty Sixteen with the same configuration.
 * Using NodeifyWP includes (heap snapshots) and object caching, Twenty Sixteen React's average response time is about 150ms longer than Twenty Sixteen with the same configuration.
 * Using object caching with a page cache (Batcache), Twenty Sixteen React's average response time is 40ms slower than Twenty Sixteen with the same configuration.
 
-Since Twenty Sixteen React and NodeifyWP rely on V8, it's inescapeable that there will be some extra overhead. However, by optimizing V8 and V8Js our benchmarks show we can reduce overhead enough that the effect on perceived page load time is nearly nothing. Furthermore, the user experience gains of running an SPA style website make Twenty Sixteen React and NodeifyWP an even more appealing, production-ready framework.
+Since NodeifyWP and Twenty Sixteen React rely on V8, it's inescapeable that there will be some overhead. However, by optimizing V8 and V8Js our benchmarks show we can reduce overhead enough that the effect on perceived page load time is nearly nothing. Furthermore, the user experience gains of running an SPA style website make NodeifyWP an even more appealing, production-ready framework.
 
 ## License
 
