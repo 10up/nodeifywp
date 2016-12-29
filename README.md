@@ -1,12 +1,28 @@
 # NodeifyWP
 
-NodeifyWP let's you create isomorphic JavaScript applications with PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. NodeifyWP yields all the benefits of WordPress and all the benefits of powerful isomorphic Node.js technologies. Pretty crazy, huh?
-
-The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.net/package/v8js) and [Google V8](https://developers.google.com/v8/). The easiest way to understand how this works is by looking at our [Twenty Sixteen React](https://github.com/10up/twentysixteenreact) theme.
+NodeifyWP let's you create isomorphic JavaScript applications with WordPress and PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. NodeifyWP yields all the benefits of WordPress and all the benefits of powerful isomorphic Node.js technologies.
 
 <p align="center">
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
 </p>
+
+## Background
+
+Isomorphic web applications (running the same code on the server and client) are all the rage because they provide the flexibility, extensibility, and consistency needed to build large and powerful "app-like" experiences on the web. JavaScript and Node.js are used to create isomorphic applications since JS runs natively in the web browser.
+
+As 8 million different isomorphic web frameworks and strategies have popped up around JavaScript, we, in the WordPress community, have been stuck in PHP world where the same isomorphism isn't really possible. We believe WordPress is an incredibly relevant and useful fully-fledged CMS with the best overall editorial experience available for publishing content. Therefore, we don't want to abandon WordPress for the newest "hot" web technology.
+
+To create JavaScript powered "app-like" experiences in WordPress, we currently have a few options:
+
+1. Create a PHP theme with a client side layer that refreshes the DOM using something like Underscore templates and the [REST API](http://v2.wp-api.org/). This strategy allows us to achieve the desired effect but is a bit forced in that we have to create templates in PHP and separate ones for JavaScript. This structure is tough to maintain from a development perspective.
+
+2. With the release of the REST API, we can discard WordPress's front-end completely. We can use Node.js and something like Express to serve our front-end communicating with WordPress using the REST API. This is great but presents some serious difficulties. For one, we have to make an external request to get simple things like theme options, menus, and sidebars. Customizer functionality is essentially useless. Previews and comments are very hard to implement. The admin bar is gone. Front-end authentication becomes an extremely hard problem to solve. Plugins can't interact with the front-end.
+
+3. Some hybrid of the first two options.
+
+The options currently available lead us to build [NodeifyWP](https://github.com/10up/nodeifywp/).
+
+*NodeifyWP uses PHP to execute Node.js code on the server.* This is made possible by [V8Js](https://github.com/phpv8/v8js) which is a PHP extension for [Google's V8 engine](https://developers.google.com/v8/). NodeifyWP exposes WordPress hooks, nav menus, sidebars, posts, and more within server-side Javascript. A simple API for registering PHP "tags" within JavaScript is made available. It also includes a REST API for retrieving route information, updated tags, sidebars, menus, etc. as the state of your application changes. With NodeifyWP, we can serve a __true isomorphic application__ from within PHP. We get all the benefits of WordPress and all the benefits of powerful isomorphic Node.js technologies. No separate Node.js/Express server is necessary.
 
 ## Requirements
 
@@ -15,9 +31,26 @@ The magic is made possible through the [PHP V8Js PECL package](https://pecl.php.
 * PHP 5.6+
 * WordPress 4.7+
 
+
+## Install
+
+1. Install the plugin. You can install it from WordPress.org or as a Composer dependency.
+2. Activate the plugin.
+3. Remember, NodeifyWP is a framework. Activate or build a theme that implements NodeifyWP.
+
+## Themes
+
+The following themes have been built with NodeifyWP:
+
+[Twenty Sixteen React](https://github.com/10up/twentysixteenreact) is a NodeifyWP WordPress theme rebuilt using the following technologies:
+* [Node.js](https://nodejs.org/)
+* [React.js](https://facebook.github.io/react/)
+* [Redux](http://redux.js.org/docs/introduction/)
+* [NodeifyWP](https://github.com/10up/nodeifywp/)
+
 ## Usage
 
-Install is easy via composer: `composer require 10up/nodeifywp`. The package comes with an easy autoloader. Once you've loaded the autoloader, add the following to `functions.php` in your theme:
+After making sure NodeifyWP is properly installed (either as a plugin or Composer dependency), add the following to `functions.php` in your theme:
 
 ```php
 \NodeifyWP\App::setup( $server_js_path, $client_js_url = null, $includes_js_path, $includes_js_url = null );
@@ -155,7 +188,14 @@ The post tag would then be available in JavaScript as `PHP.context.$posts[...].m
 * `console` does not exist. Use `print()` instead.
 * `setTimeout` does not exist.
 
-This is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html) as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+## Benchmarks
+
+Twenty Sixteen React (along with NodeifyWP) is not a performance bottleneck and will scale with any WordPress website. We've compiled [benchmarks for using Twenty Sixteen React in comparison with the standard Twenty Sixteen theme](https://docs.google.com/spreadsheets/d/1iAa5cjmAIWhz_yYkiuW2Hyn-GvbxSsAcUq2sKnFp5IM/edit#gid=158310691). Takeaways from our benchmarks:
+* With no caching set up, Twenty Sixteen React's average response time is about 200ms longer than Twenty Sixteen with the same configuration.
+* Using NodeifyWP includes (heap snapshots) and object caching, Twenty Sixteen React's average response time is about 150ms longer than Twenty Sixteen with the same configuration.
+* Using object caching with a page cache (Batcache), Twenty Sixteen React's average response time is 40ms slower than Twenty Sixteen with the same configuration.
+
+Since Twenty Sixteen React and NodeifyWP rely on V8, it's inescapeable that there will be some extra overhead. However, by optimizing V8 and V8Js our benchmarks show we can reduce overhead enough that the effect on perceived page load time is nearly nothing. Furthermore, the user experience gains of running an SPA style website make Twenty Sixteen React and NodeifyWP an even more appealing, production-ready framework.
 
 ## License
 
