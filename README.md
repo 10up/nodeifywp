@@ -31,12 +31,14 @@ The options currently available lead us to build [NodeifyWP](https://github.com/
 * PHP 5.6+
 * WordPress 4.7+
 
+__We've created a [Dockerized NodeifyWP environment](https://github.com/10up/nodeifywp-environment) that sets up all this for you.__
 
 ## Install
 
-1. Install the plugin. You can install it from WordPress.org or as a Composer dependency.
-2. Activate the plugin.
-3. Remember, NodeifyWP is a framework. Activate or build a theme that implements NodeifyWP.
+1. Install and start up the [NodeifyWP environment](https://github.com/10up/nodeifywp-environment). Since V8Js and V8 can be difficult to setup, we've created this packaged environment. We highly recommend using it.
+2. Install the plugin. You can install it from WordPress.org or as a Composer dependency.
+3. Activate the plugin.
+4. Remember, NodeifyWP is a framework. Activate or build a theme that implements NodeifyWP.
 
 ## Themes
 
