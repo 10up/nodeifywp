@@ -1,4 +1,0 @@
-vendor/*
-!vendor/autoload.php
-!vendor/url-to-query
-

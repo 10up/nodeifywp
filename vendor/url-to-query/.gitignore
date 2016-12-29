@@ -1,9 +1,0 @@
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-.DS_Store
-.coverage
-.tox
-vendor/
-composer.lock

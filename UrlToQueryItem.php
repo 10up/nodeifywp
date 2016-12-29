@@ -1,10 +1,17 @@
-<?php namespace GM;
+<?php
+
+/**
+ * From Url To Query
+ * https://github.com/Giuseppe-Mazzapica/Url_To_Query
+ */
+
+namespace NodeifyWP;
 
 class UrlToQueryItem {
 
     /**
      * UrlToQuery instance.
-     * @var \GM\UrlToQuery
+     * @var \NodeifyWP\UrlToQuery
      */
     private $resolver;
 
@@ -64,7 +71,7 @@ class UrlToQueryItem {
 
     /**
      * Constructor
-     * @param \GM\UrlToQuery $resolver
+     * @param \NodeifyWP\UrlToQuery $resolver
      */
     function __construct( UrlToQuery $resolver ) {
         $this->resolver = $resolver;
@@ -172,7 +179,7 @@ class UrlToQueryItem {
      *
      * @param array $rewrite
      * @return array
-     * @uses \GM\UrlToQueryItem::parseRewriteRule()
+     * @uses \NodeifyWP\UrlToQueryItem::parseRewriteRule()
      */
     private function parseRewriteRules( Array $rewrite ) {
         $this->error = '404';
@@ -258,10 +265,10 @@ class UrlToQueryItem {
      * before saving and return found query vars.
      *
      * @return array
-     * @uses \GM\UrlToQueryItem::parseQueryVars()
-     * @uses \GM\UrlToQueryItem::parseTaxQueryVars()
-     * @uses \GM\UrlToQueryItem::parseCptQueryVars()
-     * @uses \GM\UrlToQueryItem::parsePrivateQueryVars()
+     * @uses \NodeifyWP\UrlToQueryItem::parseQueryVars()
+     * @uses \NodeifyWP\UrlToQueryItem::parseTaxQueryVars()
+     * @uses \NodeifyWP\UrlToQueryItem::parseCptQueryVars()
+     * @uses \NodeifyWP\UrlToQueryItem::parsePrivateQueryVars()
      */
     private function resolveVars() {
         $this->setCptQueryVars();
@@ -295,7 +302,7 @@ class UrlToQueryItem {
      *
      * @param array $public_vars
      * @param array $extra
-     * @uses \GM\UrlToQueryItem::parseQueryVar()
+     * @uses \NodeifyWP\UrlToQueryItem::parseQueryVar()
      */
     private function parseQueryVars( Array $public_vars = [ ], Array $extra = [ ] ) {
         foreach ( $public_vars as $wpvar ) {

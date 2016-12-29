@@ -357,6 +357,7 @@ class App {
 		}
 
 		require_once __DIR__ . '/API.php';
+		require_once __DIR__ . '/UrlToQuery.php';
 
 		add_action( 'rest_api_init', function() {
 			$api = new API();

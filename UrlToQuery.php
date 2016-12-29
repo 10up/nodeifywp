@@ -1,4 +1,11 @@
-<?php namespace GM;
+<?php
+
+/**
+ * From Url To Query
+ * https://github.com/Giuseppe-Mazzapica/Url_To_Query
+ */
+
+namespace NodeifyWP;
 
 class UrlToQuery {
 
@@ -27,7 +34,7 @@ class UrlToQuery {
     private $extra_query_vars = [ ];
 
     /**
-     * Array of the instantiated \GM\UrlToQueryItem objects
+     * Array of the instantiated \NodeifyWP\UrlToQueryItem objects
      * @var array
      */
     private $items = [ ];
