@@ -197,6 +197,10 @@ NodeifyWP (and it's [supported themes](https://github.com/10up/nodeifywp#themes)
 
 Since NodeifyWP and Twenty Sixteen React rely on V8, it's inescapeable that there will be some overhead. However, by optimizing V8 and V8Js our benchmarks show we can reduce overhead enough that the effect on perceived page load time is nearly nothing. Furthermore, the user experience gains of running an SPA style website make NodeifyWP an even more appealing, production-ready framework.
 
+## Contributing
+
+We are excited to see how the community receives the project. We'd love to receive links to open-sourced themes using NodeifyWP.
+
 ## License
 
 This is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html) as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
