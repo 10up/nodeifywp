@@ -38,7 +38,7 @@ __We've created a [Dockerized NodeifyWP environment](https://github.com/10up/nod
 1. Install and start up the [NodeifyWP environment](https://github.com/10up/nodeifywp-environment). Since V8Js and V8 can be difficult to setup, we've created this packaged environment. We highly recommend using it.
 2. Install the plugin. You can install it from [WordPress.org](https://wordpress.org/plugins/nodeifywp) or as a [Composer dependency](https://packagist.org/packages/10up/nodeifywp).
 3. Activate the plugin.
-4. Remember, NodeifyWP is a framework. Activate or build a theme that implements NodeifyWP.
+4. Remember, NodeifyWP is a framework. Build or [use a theme](https://github.com/10up/twentysixteenreact) that implements NodeifyWP.
 
 ## Themes
 
