@@ -5,7 +5,7 @@
  * Description: Powerful framework plugin for turning your WordPress theme into an isomorphic JavaScript application.
  * Version:     1.1
  * Author:      Taylor Lovett, 10up
- * Author URI:  http://10up.com
+ * Author URI:  https://10up.com
  * License:     GPLv2 or later
  */
 
