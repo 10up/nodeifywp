@@ -37,7 +37,7 @@ class API extends \WP_REST_Controller {
 	public function get_route() {
 		$permalink_structure = get_option( 'permalink_structure' );
 
-		$resolver = new \GM\UrlToQuery();
+		$resolver = new UrlToQuery();
 		$query_args = $resolver->resolve( $_GET['location'] );
 
 		$GLOBALS['wp_the_query'] = new \WP_Query( $query_args );
