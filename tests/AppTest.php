@@ -248,6 +248,11 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 			'return' => false,
 		] );
 
+		\WP_Mock::userFunction( 'is_404', [
+			'times' => 1,
+			'return' => false,
+		] );
+
 		\WP_Mock::userFunction( 'is_front_page', [
 			'times' => 1,
 			'return' => false,
