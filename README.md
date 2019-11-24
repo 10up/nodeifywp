@@ -2,7 +2,7 @@
 
 > NodeifyWP let's you create isomorphic JavaScript applications with WordPress and PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. NodeifyWP yields all the benefits of WordPress and powerful isomorphic Node.js technologies.
 
-[![Build Status](https://travis-ci.org/10up/nodeifywp.svg?branch=master)](https://travis-ci.org/10up/nodeifywp) [![Support Level](https://img.shields.io/badge/support-stable-blue.svg)](#support-level)
+[![Support Level](https://img.shields.io/badge/support-stable-blue.svg)](#support-level) [![Build Status](https://travis-ci.org/10up/nodeifywp.svg?branch=master)](https://travis-ci.org/10up/nodeifywp) [![Release Version](https://img.shields.io/github/release/10up/nodeifywp.svg)](https://github.com/10up/nodeifywp/releases/latest)
 
 ## Background
 
