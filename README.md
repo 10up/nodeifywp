@@ -2,7 +2,7 @@
 
 > NodeifyWP let's you create isomorphic JavaScript applications with WordPress and PHP. With NodeifyWP, you can manage your content using WordPress and output the content directly on the front-end isomorphically without anything like Express. NodeifyWP yields all the benefits of WordPress and powerful isomorphic Node.js technologies.
 
-[![Support Level](https://img.shields.io/badge/support-stable-blue.svg)](#support-level) [![Build Status](https://travis-ci.org/10up/nodeifywp.svg?branch=master)](https://travis-ci.org/10up/nodeifywp) [![Release Version](https://img.shields.io/github/v/tag/10up/nodeifywp)](https://github.com/10up/nodeifywp/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v4.8%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/nodeifywp.svg)](https://github.com/10up/nodeifywp/blob/master/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-archived-red.svg)](#support-level) [![Build Status](https://travis-ci.org/10up/nodeifywp.svg?branch=master)](https://travis-ci.org/10up/nodeifywp) [![Release Version](https://img.shields.io/github/v/tag/10up/nodeifywp)](https://github.com/10up/nodeifywp/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v4.8%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/nodeifywp.svg)](https://github.com/10up/nodeifywp/blob/master/LICENSE.md)
 
 ## Background
 
@@ -207,7 +207,7 @@ This is free software; you can redistribute it and/or modify it under the terms 
 
 ## Support Level
 
-**Stable:** 10up is not planning to develop any new features for this, but will still respond to bug reports and security concerns. We welcome PRs, but any that include new features should be small and easy to integrate and should not include breaking changes. We otherwise intend to keep this tested up to the most recent version of WordPress.
+**Archived:** This project is no longer maintained by 10up. We are no longer responding to Issues or Pull Requests unless they relate to security concerns. We encourage interested developers to fork this project and make it their own!
 
 ## Like what you see?
 
